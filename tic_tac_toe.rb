@@ -1,11 +1,5 @@
 module TicTacToe
 
-  class cell
-    #can i have this method be each individual cell on the board, and control the value
-    #so it starts off as value = nil
-    #and then when one player claims the cell the value changes accordingly, x or o
-  end
-
   class Board
 
     def initialize 
@@ -13,23 +7,23 @@ module TicTacToe
     end
 
     def show
-      @board.map.with_index do |x, index|
-        if index == 0
+      @board.map.with_index do |playermove, index|
+        if index == 0 && playermove.nil?
           print("#{index} |") 
-        elsif index == 2
+        elsif index == 2 && playermove.nil?
           print("| #{index}")
-        elsif index == 3
+        elsif index == 3 && playermove.nil?
           print("#{index} |") 
-        elsif index == 5
+        elsif index == 5 && playermove.nil?
           print("| #{index}")
-        elsif index == 6
+        elsif index == 6 && playermove.nil?
           print("#{index} |")
-        elsif index == 8
+        elsif index == 8 && playermove.nil?
           print("| #{index}")
-        elsif x.nil?
+        elsif playermove.nil?
           print(" #{index} ")
         else
-          print(" #{x} ")
+          print(" #{playermove} ")
         end
         if (index + 1) % 3 == 0 && index < 7
           print "\n---------\n"
@@ -37,9 +31,9 @@ module TicTacToe
       end
     end
 
-    def edit(@choice)
-      @board[@choice] = @playersymbol  
-      @turn = other_turn
+    def update_cell (move)
+      get_move.map do ||
+      @board[get_move] << @current_player.symbol
     end
 
   end
@@ -54,4 +48,24 @@ module TicTacToe
 
   class Game
     def inizialize
+    end
+
+    def play
+      while !winner
+        @board.new
+        prompt
+        get_move
+    end
+
+    def prompt
+      puts "#{current_player.playersymbol}, please enter the fixnum of the cell you would like to occupy:"
+    end
+      
+    end
+
+    def get_move(move)
+      move = gets.chomp
+    end
+
+
   end
