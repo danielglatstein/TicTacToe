@@ -32,8 +32,7 @@ module TicTacToe
     end
 
     def update_cell (move)
-      get_move.map do ||
-      @board[get_move] << @current_player.symbol
+      @board[move] << @current_player.symbol
     end
 
   end
@@ -41,6 +40,8 @@ module TicTacToe
   class Player
     
     def inizialize
+      @current_player = Player.new
+      @other_player = Player.new
 
     end
 
@@ -52,9 +53,15 @@ module TicTacToe
 
     def play
       while !winner
-        @board.new
+        puts @board
         prompt
         get_move
+        update_cell
+        if winner?
+          congrats_winner
+        elsif draw?
+          restart?
+        else switch_players
     end
 
     def prompt
@@ -67,5 +74,17 @@ module TicTacToe
       move = gets.chomp
     end
 
+    def switch_player
+      @current_player, @other_player = @other_player, @current_player
+    end
+
+    def draw?
+    end
+
+    def winner?
+    end
+
+    def restart?
+    end
 
   end
