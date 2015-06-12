@@ -1,12 +1,19 @@
 module TicTacToe
+
+  class cell
+    #can i have this method be each individual cell on the board, and control the value
+    #so it starts off as value = nil
+    #and then when one player claims the cell the value changes accordingly, x or o
+  end
+
   class Board
 
-    def create 
+    def initialize 
       @board = Array.new(9) 
     end
 
     def show
-      @board.each_with_index do |x, index|
+      @board.map.with_index do |x, index|
         if index == 0
           print("#{index} |") 
         elsif index == 2
@@ -30,20 +37,21 @@ module TicTacToe
       end
     end
 
-    def edit(choice, player)
-
+    def edit(@choice)
+      @board[@choice] = @playersymbol  
+      @turn = other_turn
     end
 
   end
 
   class Player
     
-    def create
+    def inizialize
 
     end
 
   end
 
   class Game
-
+    def inizialize
   end
