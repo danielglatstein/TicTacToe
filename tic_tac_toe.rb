@@ -31,8 +31,13 @@ module TicTacToe
       end
     end
 
-    def update_cell (move)
-      @board[move] << @current_player.symbol
+    def update_cell (@symbol, @move)
+      @board.map.with_index do |playermove, index|
+        if index == @move
+          playermove.replace("#{@symbol}") 
+        end
+      end
+      puts @board.show
     end
 
   end
@@ -42,7 +47,6 @@ module TicTacToe
     def inizialize
       @current_player = Player.new
       @other_player = Player.new
-
     end
 
   end
@@ -54,7 +58,7 @@ module TicTacToe
     def play
       while !winner
         puts @board
-        prompt
+        cell_prompt
         get_move
         update_cell
         if winner?
@@ -64,14 +68,22 @@ module TicTacToe
         else switch_players
     end
 
-    def prompt
-      puts "#{current_player.playersymbol}, please enter the fixnum of the cell you would like to occupy:"
+    def symbol_prompt
+       puts "#{current_player}, please enter your symbol:"
+    end
+
+    def get_symbol(symbol)
+      @symbol = gets.chomp.to_s
+    end
+
+    def cell_prompt
+      puts "#{current_player}, please enter the fixnum of the cell you would like to occupy:"
     end
       
     end
 
     def get_move(move)
-      move = gets.chomp
+      @move = gets.chomp.to_s
     end
 
     def switch_player
