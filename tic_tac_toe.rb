@@ -37,7 +37,7 @@ module TicTacToe
           playermove.replace("#{@symbol}") 
         end
       end
-      puts @board.show
+      puts @board
     end
 
   end
@@ -58,12 +58,14 @@ module TicTacToe
     def play
       while !winner
         puts @board
+        symbol_prompt
+        get_symbol
         cell_prompt
         get_move
         update_cell
-        if winner?
-          congrats_winner
-        elsif draw?
+        if winner? == true
+          puts "congrats_winner"
+        elsif draw? == true
           restart?
         else switch_players
     end
@@ -72,7 +74,7 @@ module TicTacToe
        puts "#{current_player}, please enter your symbol:"
     end
 
-    def get_symbol(symbol)
+    def get_symbol(@symbol)
       @symbol = gets.chomp.to_s
     end
 
@@ -82,7 +84,7 @@ module TicTacToe
       
     end
 
-    def get_move(move)
+    def get_move(@move)
       @move = gets.chomp.to_s
     end
 
@@ -91,6 +93,14 @@ module TicTacToe
     end
 
     def draw?
+      @board.map do |playermove|
+        if playermove.contain(nil) 
+          false
+        elsif playermove.contain(nil) == false && winner? == false
+          true
+        end
+      end
+      draw?
     end
 
     def winner?
