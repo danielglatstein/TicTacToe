@@ -10,8 +10,8 @@ module TicTacToe
                 cell_prompt
                 get_move
                 update_cell
-                if status.winner? 
-                  puts "congrats_winner"
+                if winning_combination 
+                  puts winner
                 elsif status.draw? 
                   restart?
                 else 
@@ -96,10 +96,6 @@ module TicTacToe
               draw?
             end
 
-            def winner?
-              if @board.map 
-            end
-
             WINNING_COMBINATIONS = [
                 # Horizontal wins:
                 [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -111,18 +107,27 @@ module TicTacToe
 
             def winning_combination
               WINNING_COMBINATIONS.each do |combo|
-                #this returns an array of all the winning combos
+                #this returns an array of all the winning combos arrays
                 if @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
-                #ex. [combo[0] by itself calls the first index of every array in WINNING_COMBINATIONS.each i.e. "0, 3, 6, 0, 1, 2, 0, 2"
-                #so board[combo[0]] will call the value of every object at @boards[index] for "0, 3, 6, 0, 1, 2, 0, 2"
+                #ex. combo[0] by itself calls the first index of every array in WINNING_COMBINATIONS.each i.e. "0, 3, 6, 0, 1, 2, 0, 2"
+                #so @board[combo[0]] will call the value of every object at @board[index] for "0, 3, 6, 0, 1, 2, 0, 2"
                 #so to test it out if our @board=["o", "o", "o", "o", nil, nil, nil, nil, "o"] 
                   return combo unless @board[combo[0]].nil?
                   #combo (and this method) should return [0, 1, 2] in our winning combination example; 
-                  #unless sets it so that a combo of "nil" cant be a winner
+                  #the 'unless' sets it so that a combo of "nil" cannot be a winner
                 end
               end
               false
               #returns false if no valid combo is found
+            end
+
+            def winner
+              @combo = winning_combination
+              #this sets the instance variable 'combo' equal to the output of the winning_combination method i.e. [2, 4, 6]
+              @combo ? @board[@combo[0]] : false
+              #ternery expression saying if combo is true (winning_combination method will return a false if there is no valid combo)
+              #then return the first object in the @board[2]
+              #which if @board= ["x", "x", "o", "o", "o", "x", "o", "nil", "x"], would be "X"
             end
 
           end
