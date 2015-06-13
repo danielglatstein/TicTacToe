@@ -111,30 +111,13 @@ module TicTacToe
 
             def winning_combination
               WINNING_COMBINATIONS.each do |combo|
-              
-                if @board[combo[0]]== @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
-                
-                  return 
-                    combo 
-                  
-                  unless 
-                    spaces[combo[0]].nil?
-                  #this 
-                  end
-                end
-              end
-              false
-            end
-
-            def winning_combination
-              WINNING_COMBINATIONS.each do |combo|
                 #this returns an array of all the winning combos
                 if @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
                 #ex. [combo[0] by itself calls the first index of every array in WINNING_COMBINATIONS.each i.e. "0, 3, 6, 0, 1, 2, 0, 2"
                 #so board[combo[0]] will call the value of every object at @boards[index] for "0, 3, 6, 0, 1, 2, 0, 2"
                 #so to test it out if our @board=["o", "o", "o", "o", nil, nil, nil, nil, "o"] 
                   return combo unless @board[combo[0]].nil?
-                  #combo should return [0, 1, 2] in our winning combination example; 
+                  #combo (and this method) should return [0, 1, 2] in our winning combination example; 
                   #unless sets it so that a combo of "nil" cant be a winner
                 end
               end
