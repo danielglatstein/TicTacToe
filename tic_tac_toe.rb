@@ -2,11 +2,6 @@ module TicTacToe
 
       class Game
 
-            def inizialize
-              @symbol1 = "X"
-              @symbol2 = "O"
-            end
-
             def play
               turn = 0 
               while winner? && draw? != true
@@ -30,8 +25,8 @@ module TicTacToe
 
             def update_cell (symbol, move)
               @board.map.with_index do |playermove, index|
-                if @move == index
-                  @board[index] = "#{@symbol}" 
+                if move == index
+                  @board[index] = "#{symbol}" 
                 end
               end
             end
@@ -119,13 +114,7 @@ module TicTacToe
       class Player
         
         def inizialize
-          @player1 = Player.new(player1)
-          @player2 = Player.new(player2)
-        end
-
-        def symbol
-          @player1.symbol = @symbol1
-          @player2.symbol = @symbol2
+          players = ["X", "O"].cycle
         end
 
       end
