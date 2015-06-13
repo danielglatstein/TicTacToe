@@ -2,13 +2,10 @@ module TicTacToe
 
       class Game
 
-            def play
-              turn = 0 
+            def play 
               while winner? && draw? != true
+                current_player = players.next
                 @board.show
-                turn
-                symbol_prompt
-                get_symbol
                 cell_prompt
                 get_move
                 update_cell
@@ -17,7 +14,7 @@ module TicTacToe
                 elsif status.draw? == true
                   restart?
                 else 
-                  turn += 1
+                  current_player = players.next
                 end
               end
             end
@@ -29,14 +26,6 @@ module TicTacToe
                   @board[index] = "#{symbol}" 
                 end
               end
-            end
-
-            def symbol_prompt
-               puts "#{current_player}, please enter your symbol:"
-            end
-
-            def get_symbol(symbol)
-              @symbol = gets.chomp.to_s
             end
 
             def cell_prompt
