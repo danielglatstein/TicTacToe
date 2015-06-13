@@ -1,5 +1,8 @@
 module TicTacToe
 
+  g = Game.new
+  g.play
+
   class Board
 
     def initialize 
@@ -31,13 +34,19 @@ module TicTacToe
       end
     end
 
-    def update_cell (@symbol, @move)
-      @board.map.with_index do |playermove, index|
-        if index == @move
-          playermove.replace("#{@symbol}") 
+    def draw?
+      @board.map do |playermove|
+        if playermove.contain(nil) 
+          false
+        elsif playermove.contain(nil) == false && winner? == false
+          true
         end
       end
-      puts @board
+      draw?
+    end
+
+    def winner?
+      if @board.map 
     end
 
   end
@@ -45,29 +54,47 @@ module TicTacToe
   class Player
     
     def inizialize
-      @current_player = Player.new
-      @other_player = Player.new
+      @player1 = Player.new(player1)
+      @player2 = Player.new(player2)
+    end
+
+    def symbol
+      @player1.symbol = @symbol1
+      @player2.symbol = @symbol2
     end
 
   end
 
   class Game
+
     def inizialize
+      @symbol1 = "X"
+      @symbol2 = "O"
     end
 
     def play
-      while !winner
-        puts @board
+      turn = 0 
+      while winner? && draw? != true
+        @board.show
+        turn
         symbol_prompt
         get_symbol
         cell_prompt
         get_move
         update_cell
-        if winner? == true
+        if status.winner? == true
           puts "congrats_winner"
-        elsif draw? == true
+        elsif status.draw? == true
           restart?
-        else switch_players
+        else turn += 1
+    end
+
+    def update_cell (@symbol, @move)
+      @board.map.with_index do |playermove, index|
+        if @move == index
+          @board[index] = "#{@symbol}" 
+        end
+      end
     end
 
     def symbol_prompt
@@ -88,25 +115,16 @@ module TicTacToe
       @move = gets.chomp.to_s
     end
 
-    def switch_player
-      @current_player, @other_player = @other_player, @current_player
-    end
-
-    def draw?
-      @board.map do |playermove|
-        if playermove.contain(nil) 
-          false
-        elsif playermove.contain(nil) == false && winner? == false
-          true
-        end
+    def turn
+      if turn.even == true
+       @current_player = @player1
+      else
+       @current_player = @player2
       end
-      draw?
-    end
-
-    def winner?
     end
 
     def restart?
+      puts @board.new
     end
 
   end
