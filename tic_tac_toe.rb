@@ -74,7 +74,10 @@ module TicTacToe
             end
 
             def moves
-              spaces.compact.count
+              @board.compact.count
+              # calling .compact reduces the number of objects to anything that has a true value (eliminates nil)
+              # and .count will return the number of objects
+              # e.x. if @board = ["x", "x", "o", "o", "o", "x", "o", nil, "x"] , moves would return 8
             end
 
             def update_cell (cell, symbol)
@@ -82,7 +85,7 @@ module TicTacToe
               # (current_player = "X") and (move = 8)
               # to return @board[8] = "X"
               # @board = [nil, nil, nil, nil, nil, nil, nil, "X"]
-                  @board[cell] = symbol 
+                  @board[get_move[cell]] = symbol 
             end
 
             def draw?
@@ -107,7 +110,7 @@ module TicTacToe
 
             def winning_combination
               WINNING_COMBINATIONS.each do |combo|
-                #this returns an array of all the winning combos arrays
+                #this calls an array of all the winning combos arrays
                 if @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
                 #ex. combo[0] by itself calls the first index of every array in WINNING_COMBINATIONS.each i.e. "0, 3, 6, 0, 1, 2, 0, 2"
                 #so @board[combo[0]] will call the value of every object at @board[index] for "0, 3, 6, 0, 1, 2, 0, 2"
@@ -127,7 +130,7 @@ module TicTacToe
               @combo ? @board[@combo[0]] : false
               #ternery expression saying if combo is true (winning_combination method will return a false if there is no valid combo)
               #then return the first object in the @board[2]
-              #which if @board= ["x", "x", "o", "o", "o", "x", "o", "nil", "x"], would be "X"
+              #which if @board= ["x", "x", "o", "o", "o", "x", "o", nil, "x"], would be "X"
             end
 
           end
