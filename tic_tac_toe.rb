@@ -29,11 +29,17 @@ module TicTacToe
             end
 
             def turn
-              if turn.even == true
-               @current_player = @players[0]
-              else
-               @current_player = @players[1]
+              #to test I set @board = ["o", "o", "o", "o", nil, nil, nil, "x", "x"]
+              #moves method would return 6, b/c 6 spaces have values, and 3 are nil
+              if moves.to_i.even? == true
+                current_player = @players[0]
+                #says if moves is an even number set current_player equal to the first object in @players
+                #@players = ["X", "O"]
+              elsif 
+                current_player = @players[1]
               end
+              current_player
+              #for our example this would return "X", if the moves method returned an odd number it would be "O"
             end
 
             def restart?
@@ -81,11 +87,13 @@ module TicTacToe
             end
 
             def update_cell (cell, symbol)
+              symbol = turn
+              cell = get_move
               # expected output if 
               # (current_player = "X") and (move = 8)
               # to return @board[8] = "X"
-              # @board = [nil, nil, nil, nil, nil, nil, nil, "X"]
-                  @board[get_move[cell]] = symbol 
+              # @board = [nil, nil, nil, nil, nil, nil, nil, nil, "X"]
+                  @board[cell] = symbol 
             end
 
             def draw?
