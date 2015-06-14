@@ -2,26 +2,30 @@ module TicTacToe
 
       class Game
 
-            def play 
-              turn = 0 
-              while winner? && draw? != true
-                current_player = players.next
+        attr_reader :players, :board
+
+            def initialize
+              @players.new
+              @board.new
+            end
+            
+            def play(players, board = Board.new)
+              while winner == false && moves < 9 
                 @board.show
                 cell_prompt
                 get_move
-                update_cell
-                if winning_combination 
+                @board.update_cell
+                if winner == true 
                   puts winner
+                  break
                 elsif status.draw? 
-                  restart?
-                else 
-                  turn += 1
+                  break
                 end
               end
             end
 
             def cell_prompt
-              puts "#{current_player}, please enter the fixnum of the cell you would like to occupy:"
+              puts "#{turn}, please enter the fixnum of the cell you would like to occupy:"
             end
 
             def get_move(move)
@@ -49,6 +53,8 @@ module TicTacToe
       end
 
       class Board
+
+        attr_reader : board
 
             def initialize 
               @board = Array.new(9) 
@@ -97,14 +103,11 @@ module TicTacToe
             end
 
             def draw?
-              @board.map do |playermove|
-                if playermove.contain(nil) 
-                  false
-                elsif playermove.contain(nil) == false && winner? == false
-                  true
-                end
+              if @board.include?(nil) 
+                return false
+              elsif winner == false && @board.include?(nil) == false
+                return true
               end
-              draw?
             end
 
             WINNING_COMBINATIONS = [
@@ -133,9 +136,9 @@ module TicTacToe
             end
 
             def winner
-              @combo = winning_combination
+              combo = winning_combination
               #this sets the instance variable 'combo' equal to the output of the winning_combination method i.e. [2, 4, 6]
-              @combo ? @board[@combo[0]] : false
+              combo ? @board[@combo[0]] : false
               #ternery expression saying if combo is true (winning_combination method will return a false if there is no valid combo)
               #then return the first object in the @board[2]
               #which if @board= ["x", "x", "o", "o", "o", "x", "o", nil, "x"], would be "X"
