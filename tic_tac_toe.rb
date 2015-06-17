@@ -29,7 +29,7 @@ module TicTacToe
 # I wanted a 'nil' object to be represented with the number cell it was occupying, so I called .map.with_index on the board.
 # If the objects value changed, it would be represented by the string that replaced it. 
 
-# By adding 1 to the index, I could puts a new line every third cell by evenly dividing the index by 3. This would create 
+# By doing 'index + 1', I could puts a new line every third cell by evenly dividing the index by 3. This would create 
 # the three rows I needed. 
 
             def display_board
@@ -57,13 +57,13 @@ module TicTacToe
               end
             end
 
-# Most importantly the Board Class should be able to create and display the board. I figured the Class should be responsible 
-# for updating the cells (to change them from nil to "X"/"O" in the correct place), and also be able to analyze
-# the board if there is a winner or if the game was a draw. 
+# The Board Class should be able to create and display the board. The Class should also be responsible 
+# for updating the cells (to change them from nil to "X"/"O" in the correct place), and be able to analyze
+# the board to determine if there was a winner or if the game was a draw. 
                 
-            def update_cell (cell, symbol)
-              symbol = turn
-              cell = get_move
+            def update_cell 
+              symbol = @game.turn
+              cell = @game.get_move
               # expected output if 
               # (current_player = "X") and (move = 8)
               # to return @board[8] = "X"
@@ -124,7 +124,7 @@ module TicTacToe
             def winner
               combo = winning_combination
               # this sets the instance variable 'combo' equal to the output of the winning_combination method i.e. [2, 4, 6]
-              combo ? @board[@combo[0]] : false
+              combo ? @board[combo[0]] : false
               # ternery expression saying if combo is true (winning_combination method will return a false if there is no valid combo)
               # then return the first object in the @board[2]
               # which if @board= ["x", "x", "o", "o", "o", "x", "o", nil, "x"], would be "X"
@@ -137,8 +137,8 @@ module TicTacToe
 
       class Player
           
-            def inizialize
-              @players = ["X", "O"]
+            def initialize
+              @player = ["X", "O"]
             end
 
       end
@@ -152,32 +152,32 @@ module TicTacToe
 
 
             def initialize
-              players = Players.new
-              board = Board.new
+              @player = Player.new
+              @board = Board.new
             end
 
 # I wanted the 'play method' below to be like the 'runner method' in the 'Simple Blackjack' lesson. 
 # It took great attention to detail and lots of abstraction to get the game down to what I thought were the most essential tasks. 
             
-            def play(players, board)
+            def play
               # To start, the method takes two arguments, the players and board array.   
-              while winner == false
+              while @board.winner == false
                 # Then I set up a while loop that will keep going until there is no winner.
-                display_board
+                @board.display_board
                 # I started by calling the display_board method (from the Board Class) to show 
                 # the array in the traditional Tic-Tac-Toe formatting. 
                 cell_prompt
                 # I Prompt the Player to make their selection. 
                 get_move
                 # Here is where the Player imputs their selection. 
-                board.update_cell
+                @board.update_cell
                 # Update_cell (from the Board Class) will take the Player's input and update the value of the object at the 
                 # corresponding Board[index].  
-                if winner == true 
-                  puts winner
+                if @board.winner == true 
+                  puts @board.winner
                   break
                   # This ends the loop if there has been a winner.
-                elsif draw == true
+                elsif @board.draw == true
                   break
                   # This ends the loop if the match is a draw. 
                 end
@@ -189,29 +189,30 @@ module TicTacToe
 # I set the turn method to return "X" if it is an even numbered turn (0, 2, 4, 6, 8) and it will be "O" if moves is odd. 
 
             def turn
-              # to test I set @board = ["o", "o", "o", "o", nil, nil, nil, "x", "x"]
-              # moves method would return 6, b/c 6 spaces have values, and 3 are nil
-              if moves.to_i.even? == true
-                current_player = @players[0]
+              # If I set @board = ["o", "o", "o", "o", nil, nil, nil, "x", "x"]
+              # the moves method would return 6, b/c 6 spaces have values, and 3 are nil
+              if @board.moves.to_i.even? == true
+                current_player = @player[0]
                 # says if moves is an even number set current_player equal to the first object in @players
                 # @players = ["X", "O"]
               elsif 
-                current_player = @players[1]
+                current_player = @player[1]
               end
               current_player
               # for our example this would return "X", if the moves method returned an odd number it would be "O"
             end
 
             def cell_prompt
-              puts "#{turn}, please enter the fixnum of the cell you would like to occupy:"
+              puts "\n\nPlease enter the fixnum of the cell you would like to occupy:"
             end
 
             def get_move
-              move = gets.chomp.to_s
+              move = gets.chomp.to_i
             end
-            
+
       end
 
 end
 
+TicTacToe::Game.new.play
   
