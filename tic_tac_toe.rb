@@ -1,19 +1,17 @@
-# Tic tac toe seemed like a simple game, but building it in Ruby has proven to be an exciting challenge. 
-# In the process, I have learned a lot about the logic skills required to simplify an object down to its most essential functions.
+=begin 
+  Tic tac toe seemed like a simple game until I began building it in Ruby. The task proved to be an exciting challenge. 
+  
+  In the process, I learned about the logic skills required to simplify an object down to its most essential functions. 
+The exercize helped me to become much more technically proficient at writing code. I also became more informed with how to 
+test my methods in IRB.   
 
-# This exercize helped me to become much more informed with how to test my methods in IRB. I learned to understand the importance 
-# of having classes that serve unique purposes and contain short, simple methods with one task. The project has also helped to show me
-# concepts that I need to continue studying in order to more easily apply them in my work.
-# For instance, variables and how they are passed from class to class. 
+  The project has also helped to show me concepts that I need to continue studying in order to apply them in my work with greater ease.
+For instance, I hope to study the principles behind creating classes that contain short, simple methods with specific tasks. I also
+want to become much more comfortable at creating test code and interpreting error messages.
 
-# The first question that came to my mind when tackling this problem was: "how will i represent the board?"
-# I reasoned that I had to make 'the board' an array that would hold 9 objects, each representing an empty cell. 
-# At first, I thought the array should look like this: "board= [[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]]" and then the spaces could
-# be represented by grid coordindates i.e. the middle cell would be (1,1).
-
-# After some trial and error, I wanted to simplify the array to be how it is now: "board = Array.new(9)".
-# Why make it more complicated then it needs to be? Now each cell on the board can be indexed with one number 0..8.
-# i.e. the middle cell would be board[4].
+  Ultimately, my greatest difficulty with this assignment was one of organization. I felt like I knew how to write the code, 
+but not where to put it. 
+=end
 
 module TicTacToe
 
@@ -22,16 +20,25 @@ module TicTacToe
             def initialize 
               @board = Array.new(9) 
             end
+=begin
+  The first question I had when tackling the 'tic-tac-toe' problem was: "how will I represent the board?"
+I reasoned that I had to make the board out of an array that holds 9 objects, each representing an empty cell. 
+At first, I thought the board object should be a multidimensional array and then the spaces could be represented 
+by grid coordindates i.e. the middle cell would be (1,1).
 
-# How could I represent the classic tic-tac-toe board?
-# The '|' key looks a lot like the line. So I set it to be on the left and right sides of the middle column respectively.
+  After some trial and error, I wanted to simplify the array to be how it is now: "board = Array.new(9)".
+Why make it more complicated then it needs to be? Now each cell on the board can be indexed with one number 0..8.
+i.e. the middle cell would be board[4]. 
 
-# I wanted a 'nil' object to be represented with the number cell it was occupying, so I called .map.with_index on the board.
-# If the objects value changed, it would be represented by the string that replaced it. 
+  How could I represent the classic tic-tac-toe board? The '|' key looks a lot like the line. So I set it to be on the 
+left and right sides of the middle column respectively.
 
-# By doing 'index + 1', I could puts a new line every third cell by evenly dividing the index by 3. This would create 
-# the three rows I needed. 
+  I call .map.with_index on @board because I want a 'nil' object to be represented on the board with the number cell it 
+was occupying. If the objects value changes, it will be represented by the string that replaced it. 
 
+  By doing 'index + 1', I could puts a new line every third cell by evenly dividing the index by 3. This would create 
+the three rows I needed. 
+=end
             def display_board
               @board.map.with_index do |playermove, index|
                 if index == 0 && playermove.nil?
@@ -56,19 +63,26 @@ module TicTacToe
                 end
               end
             end
-
-# The Board Class should be able to create and display the board. The Class should also be responsible 
-# for updating the cells (to change them from nil to "X"/"O" in the correct place), and be able to analyze
-# the board to determine if there was a winner or if the game was a draw. 
+=begin
+  The Board Class should be able to create and display the board. The Class should also be responsible 
+for updating the cells (to change them from nil to "X"/"O" in the correct place), and be able to analyze
+the board to determine if there was a winner or if the game was a draw. 
                 
+  The 'update_cell' method is what I am currently stuck on. When TicTacToe::Game.new.play calls on this method I get a NoMethodError. 
+This tells me that the 'update_cell' method is not seeing the methods that belong to the Game object, because 
+'update_cell' belongs to the Board object. 
+
+  In Game.initialize I was able to create new instances of Board and Player, but how do I get Board and Player to 'belong_to' 
+the Game object? This challenge is a specific example of how I can improve the organization of my code to make it more efficient and 
+and easier to change. Granted, this is the one of the first Ruby applications that I have built of this magnitude, so I am 
+confident that I can learn from the experience to do it better next time. 
+=end
             def update_cell 
-              symbol = @game.turn
-              cell = @game.get_move
               # expected output if 
-              # (current_player = "X") and (move = 8)
+              # (@game.turn = "X") and (@game.get_move = 8)
               # to return @board[8] = "X"
               # @board = [nil, nil, nil, nil, nil, nil, nil, nil, "X"]
-                  @board[cell] = symbol 
+                  @board[@game.get_move] = @game.turn 
             end
 
 # I wanted a method that could keep track of how many moves had been made. This will be a useful tool 
@@ -83,7 +97,6 @@ module TicTacToe
 
 # To see if there was a draw, the method is set to return false if the array still includes nil.
 # The method returns true in there are no more nil objects in the array and no winner was declared. 
-
 
             def draw?
               if @board.include?(nil) 
@@ -123,7 +136,7 @@ module TicTacToe
 
             def winner
               combo = winning_combination
-              # this sets the instance variable 'combo' equal to the output of the winning_combination method i.e. [2, 4, 6]
+              # this sets 'combo' equal to the output of the winning_combination method i.e. [2, 4, 6]
               combo ? @board[combo[0]] : false
               # ternery expression saying if combo is true (winning_combination method will return a false if there is no valid combo)
               # then return the first object in the @board[2]
@@ -132,8 +145,8 @@ module TicTacToe
 
           end
 
-# In planning the game, I knew I needed a player class. 
-# I wanted to make this as simple as possible, so the players are just an array with two objects, each one representing a player. 
+# In planning the game, I knew I needed a player class. I wanted to make this as simple as possible. 
+# @player is an Array with two objects, each representing a player and that players symbol, respectively "X" and "O". 
 
       class Player
           
@@ -144,21 +157,25 @@ module TicTacToe
       end
 
 # Drawing from the 'Simple Blackjack' lesson on Learn.co, I wanted a class that would serve as the 'game controller', in that it
-# would help move the game from one step to the next. 
+# would help move the game from one step to the next and determine when it was over. 
 
       class Game
 
-# To begin, game needs a new set of Players and a new Board.  
+# To begin, game needs a set of Players and a new Board.  
 
 
             def initialize
               @player = Player.new
               @board = Board.new
             end
-
-# I wanted the 'play method' below to be like the 'runner method' in the 'Simple Blackjack' lesson. 
-# It took great attention to detail and lots of abstraction to get the game down to what I thought were the most essential tasks. 
-            
+=begin
+  I wanted the 'play method' to be like the 'runner' method in the 'Simple Blackjack' lesson. 
+My goal was to abstract a game of tic-tac-toe down to what I thought were the most essential tasks: 
+          -displaying the updated board 
+          -getting the User's input
+          -determing if the game was over and why?
+          -switching turns
+=end
             def play
               # To start, the method takes two arguments, the players and board array.   
               while @board.winner == false
@@ -193,7 +210,7 @@ module TicTacToe
               # the moves method would return 6, b/c 6 spaces have values, and 3 are nil
               if @board.moves.to_i.even? == true
                 current_player = @player[0]
-                # says if moves is an even number set current_player equal to the first object in @players
+                # if moves is an even number set current_player equal to the first object in @players
                 # @players = ["X", "O"]
               elsif 
                 current_player = @player[1]
